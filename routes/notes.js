@@ -24,14 +24,22 @@ router.post("/", (req, res) => {
     };
     console.log(newNote);
     notesData.push(newNote);
-    const noteString = JSON.stringify(notesData, null);
-    fs.writeFile("./db/db.json", noteString);
+    saveData();
   }
   res.json(req.body);
 });
 
-router.delete("/:title", (req, res) => {
-  notesData.splice();
+const saveData = () => {
+  const noteString = JSON.stringify(notesData, null, "\t");
+  fs.writeFile("./db/db.json", noteString, () => {
+    console.log("file written.");
+  });
+};
+
+router.delete("/:id", (req, res) => {
+  notesData.splice(parseInt(req.params.id), 1);
+  saveData();
+  res.send("Delete Successful!");
 });
 
 module.exports = router;
