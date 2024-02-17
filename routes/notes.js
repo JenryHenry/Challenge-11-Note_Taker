@@ -5,7 +5,7 @@ const fs = require("fs");
 router.get("/", (req, res) => {
   const displayNotes = notesData.map((item, idx) => {
     return {
-      id: idx,
+      id: idx + 1,
       title: item.title,
       text: item.text,
     };
@@ -37,7 +37,7 @@ const saveData = () => {
 };
 
 router.delete("/:id", (req, res) => {
-  notesData.splice(parseInt(req.params.id), 1);
+  notesData.splice(parseInt(req.params.id) - 1, 1);
   saveData();
   res.send("Delete Successful!");
 });
